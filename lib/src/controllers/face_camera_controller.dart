@@ -143,7 +143,6 @@ class FaceCameraController extends ValueNotifier<FaceCameraState> {
     await value.cameraController!.lockCaptureOrientation(
         EnumHandler.cameraOrientationToDeviceOrientation(
             CameraOrientation.values[newOrientation]));
-    _initCamera();
   }
 
   Future<XFile?> takePicture() async {
