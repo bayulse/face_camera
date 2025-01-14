@@ -20,6 +20,9 @@ class SmartFaceCamera extends StatefulWidget {
   /// Set false to hide camera lens control icon.
   final bool showCameraLensControl;
 
+  /// Set false to hide camera orientation control icon.
+  final bool showCameraOrientationControl;
+
   /// Use this pass a message above the camera.
   final String? message;
 
@@ -31,6 +34,9 @@ class SmartFaceCamera extends StatefulWidget {
 
   /// Use this to render a custom widget for camera lens control.
   final Widget? lensControlIcon;
+
+  /// Use this to render a custom widget for camera orientation control.
+  final Widget? orientationControlIcon;
 
   /// Use this to build custom widgets for flash control based on camera flash mode.
   final FlashControlBuilder? flashControlBuilder;
@@ -59,11 +65,13 @@ class SmartFaceCamera extends StatefulWidget {
       this.showCaptureControl = true,
       this.showFlashControl = true,
       this.showCameraLensControl = true,
+      this.showCameraOrientationControl = true,
       this.message,
       this.messageStyle = const TextStyle(
           fontSize: 14, height: 1.5, fontWeight: FontWeight.w400),
       this.captureControlBuilder,
       this.lensControlIcon,
+      this.orientationControlIcon,
       this.flashControlBuilder,
       this.messageBuilder,
       this.indicatorShape = IndicatorShape.defaultShape,
@@ -204,6 +212,9 @@ class _SmartFaceCameraState extends State<SmartFaceCamera>
                       if (widget.showCameraLensControl) ...[
                         _lensControlWidget()
                       ],
+                      if (widget.showCameraOrientationControl) ...[
+                        _orientationControlWidget()
+                      ]
                     ],
                   ),
                 ),
@@ -304,6 +315,22 @@ class _SmartFaceCameraState extends State<SmartFaceCamera>
                 )),
         onPressed: widget.controller.enableControls
             ? widget.controller.changeCameraLens
+            : null);
+  }
+
+  /// Display the control buttons to change orientation.
+  Widget _orientationControlWidget() {
+    return IconButton(
+        icon: widget.orientationControlIcon ??
+            CircleAvatar(
+                radius: 25,
+                foregroundColor: iconColor,
+                child: const Padding(
+                  padding: EdgeInsets.all(2.0),
+                  child: Icon(Icons.change_circle_sharp, size: 25),
+                )),
+        onPressed: widget.controller.enableControls
+            ? widget.controller.changeOrientation
             : null);
   }
 }
